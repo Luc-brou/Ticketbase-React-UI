@@ -1,0 +1,1 @@
+//should hold styles and info for each events full detail
