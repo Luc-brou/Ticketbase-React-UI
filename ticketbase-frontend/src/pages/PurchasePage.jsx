@@ -15,10 +15,15 @@ export default function PurchasePage() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:5000/api/tickets", {
+      const res = await fetch("https://nscc-0489720-web-app-eje7d3g3fhd5hqc2.eastus2-01.azurewebsites.net/api/purchases", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId: id, ...form })
+        body: JSON.stringify({
+          concertID: id,
+          numTicketsOrdered: form.tickets,
+          customerDetails: `${form.name}, ${form.email}`,
+          cardToken: form.card
+        })
       });
       const data = await res.json();
       if (res.ok) setMessage("Purchase confirmed! Check your email.");
@@ -30,31 +35,31 @@ export default function PurchasePage() {
 
   return (
     <div className="container mt-4">
-  <h2 className="mb-3">Purchase Tickets</h2>
-  <form onSubmit={handleSubmit} className="needs-validation">
-    <div className="mb-3">
-      <label className="form-label">Number of Tickets</label>
-      <input type="number" name="tickets" value={form.tickets}
-             onChange={handleChange} min="1" className="form-control" />
+      <h2 className="mb-3">Purchase Tickets</h2>
+      <form onSubmit={handleSubmit} className="needs-validation">
+        <div className="mb-3">
+          <label className="form-label">Number of Tickets</label>
+          <input type="number" name="tickets" value={form.tickets}
+                 onChange={handleChange} min="1" className="form-control" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Full Name</label>
+          <input type="text" name="name" onChange={handleChange}
+                 className="form-control" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Email</label>
+          <input type="email" name="email" onChange={handleChange}
+                 className="form-control" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Credit Card Number</label>
+          <input type="text" name="card" onChange={handleChange}
+                 className="form-control" />
+        </div>
+        <button type="submit" className="btn btn-success">Buy Tickets</button>
+      </form>
+      {message && <div className="alert alert-info mt-3">{message}</div>}
     </div>
-    <div className="mb-3">
-      <label className="form-label">Full Name</label>
-      <input type="text" name="name" onChange={handleChange}
-             className="form-control" />
-    </div>
-    <div className="mb-3">
-      <label className="form-label">Email</label>
-      <input type="email" name="email" onChange={handleChange}
-             className="form-control" />
-    </div>
-    <div className="mb-3">
-      <label className="form-label">Credit Card Number</label>
-      <input type="text" name="card" onChange={handleChange}
-             className="form-control" />
-    </div>
-    <button type="submit" className="btn btn-success">Buy Tickets</button>
-  </form>
-  {message && <div className="alert alert-info mt-3">{message}</div>}
-</div>
   );
 }

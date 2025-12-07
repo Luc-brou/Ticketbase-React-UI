@@ -6,7 +6,7 @@ export default function EventPage() {
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/events/${id}`)
+    fetch(`https://nscc-0489720-web-app-eje7d3g3fhd5hqc2.eastus2-01.azurewebsites.net/api/concerts/${id}`)
       .then(res => res.json())
       .then(data => setEvent(data))
       .catch(err => console.error("Error fetching event:", err));
@@ -15,15 +15,14 @@ export default function EventPage() {
   if (!event) return <p>Loading...</p>;
 
   return (
-
-  <div className="container mt-4">
-  <h2 className="mb-3">{event.title}</h2>
-  <p>{event.description}</p>
-  <p><strong>Date:</strong> {event.date}</p>
-  <p><strong>Location:</strong> {event.location}</p>
-  <Link to={`/purchase/${event.id}`} className="btn btn-primary">
-    Buy Tickets
-  </Link>
-</div>
+    <div className="container mt-4">
+      <h2 className="mb-3">{event.title}</h2>
+      <p>{event.description}</p>
+      <p><strong>Date:</strong> {new Date(event.concertDate).toLocaleDateString()}</p>
+      <p><strong>Genre:</strong> {event.genre?.title}</p>
+      <Link to={`/purchase/${event.concertID}`} className="btn btn-primary">
+        Buy Tickets
+      </Link>
+    </div>
   );
 }
