@@ -5,7 +5,7 @@ export default function Home() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch("https://nscc-0489720-web-app-eje7d3g3fhd5hqc2.eastus2-01.azurewebsites.net/api/concerts")
+    fetch("http://localhost:3000/api/concerts")
       .then(res => res.json())
       .then(data => setEvents(data))
       .catch(err => console.error("Error fetching concerts:", err));
@@ -17,11 +17,12 @@ export default function Home() {
       <div className="list-group">
         {events.map(ev => (
           <Link
-            key={ev.concertID}
-            to={`/events/${ev.concertID}`}
+            key={ev.ConcertID}
+            to={`/events/${ev.ConcertID}`}
             className="list-group-item list-group-item-action"
           >
-            <strong>{ev.title}</strong> — {new Date(ev.concertDate).toLocaleDateString()}
+            <strong>{ev.Title}</strong> —{" "}
+            {new Date(ev.ConcertDate).toLocaleDateString()}
           </Link>
         ))}
       </div>
